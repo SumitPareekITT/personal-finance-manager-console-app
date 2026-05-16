@@ -3,6 +3,7 @@ using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using PersonalFinanceManager.Database;
+using PersonalFinanceManager.Services;
 
 var configuration = new ConfigurationBuilder()
     .SetBasePath(Directory.GetCurrentDirectory())
@@ -17,4 +18,34 @@ var options = new DbContextOptionsBuilder<AppDbContext>()
 
 using var context = new AppDbContext(options);
 
-Console.WriteLine("Database configuration successful.");
+var expenseService = new ExpenseService(context);
+
+while (true)
+{
+    Console.WriteLine("\n=== Personal Finance Manager ===");
+    Console.WriteLine("1. Add Expense");
+    Console.WriteLine("2. View Expenses");
+    Console.WriteLine("3. Exit");
+
+    Console.Write("Select an option: ");
+
+    string choice = Console.ReadLine() ?? "";
+
+    switch (choice)
+    {
+        case "1":
+            expenseService.AddExpense();
+            break;
+
+        case "2":
+            expenseService.ViewExpenses();
+            break;
+
+        case "3":
+            return;
+
+        default:
+            Console.WriteLine("Invalid option.");
+            break;
+    }
+}
