@@ -56,5 +56,58 @@ namespace PersonalFinanceManager.Services
                 );
             }
         }
+
+        public void FilterExpensesByCategory()
+        {
+            Console.Write("Enter Category: ");
+            string category = Console.ReadLine() ?? string.Empty;
+
+            var expenses = _context.Expenses
+                .Where(e => e.Category.ToLower() == category.ToLower())
+                .ToList();
+
+            if (!expenses.Any())
+            {
+                Console.WriteLine("No expenses found for this category.");
+                return;
+            }
+
+            foreach (var expense in expenses)
+            {
+                Console.WriteLine(
+                    $"ID: {expense.Id} | Amount: {expense.Amount} | Category: {expense.Category} | Date: {expense.Date}"
+                );
+            }
+        }
+
+        public void FilterExpensesByDate()
+        {
+            Console.Write("Enter Date (yyyy-mm-dd): ");
+
+            string inputDate = Console.ReadLine() ?? "";
+
+            if (!DateTime.TryParse(inputDate, out DateTime selectedDate))
+            {
+                Console.WriteLine("Invalid date format.");
+                return;
+            }
+
+            var expenses = _context.Expenses
+                .Where(e => e.Date.Date == selectedDate.Date)
+                .ToList();
+
+            if (!expenses.Any())
+            {
+                Console.WriteLine("No expenses found for this date.");
+                return;
+            }
+
+            foreach (var expense in expenses)
+            {
+                Console.WriteLine(
+                    $"ID: {expense.Id} | Amount: {expense.Amount} | Category: {expense.Category} | Date: {expense.Date}"
+                );
+            }
+        }
     }
 }

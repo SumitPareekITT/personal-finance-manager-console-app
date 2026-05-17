@@ -25,7 +25,9 @@ while (true)
     Console.WriteLine("\n=== Personal Finance Manager ===");
     Console.WriteLine("1. Add Expense");
     Console.WriteLine("2. View Expenses");
-    Console.WriteLine("3. Exit");
+    Console.WriteLine("3. Filter Expenses By Category");
+    Console.WriteLine("4. Filter Expenses By Date");
+    Console.WriteLine("5. Exit");
 
     Console.Write("Select an option: ");
 
@@ -42,6 +44,14 @@ while (true)
             break;
 
         case "3":
+            expenseService.FilterExpensesByCategory();
+            break;
+
+        case "4":
+            expenseService.FilterExpensesByDate();
+            break;
+
+        case "5":
             return;
 
         default:
