@@ -27,7 +27,8 @@ while (true)
     Console.WriteLine("2. View Expenses");
     Console.WriteLine("3. Filter Expenses By Category");
     Console.WriteLine("4. Filter Expenses By Date");
-    Console.WriteLine("5. Exit");
+    Console.WriteLine("5. Delete Expense");
+    Console.WriteLine("6. Exit");
 
     Console.Write("Select an option: ");
 
@@ -52,6 +53,10 @@ while (true)
             break;
 
         case "5":
+            expenseService.DeleteExpense();
+            break;
+
+        case "6":
             return;
 
         default:
