@@ -20,6 +20,7 @@ using var context = new AppDbContext(options);
 
 var expenseService = new ExpenseService(context);
 var incomeService = new IncomeService(context);
+var budgetService = new BudgetService(context);
 
 while (true)
 {
@@ -31,7 +32,9 @@ while (true)
     Console.WriteLine("5. Delete Expense");
     Console.WriteLine("6. Add Income");
     Console.WriteLine("7. View Income");
-    Console.WriteLine("8. Exit");
+    Console.WriteLine("8. Set Budget");
+    Console.WriteLine("9. View Budgets");
+    Console.WriteLine("10. Exit");
 
     Console.Write("Select an option: ");
 
@@ -68,6 +71,14 @@ while (true)
             break;
 
         case "8":
+            budgetService.SetBudget();
+            break;
+
+        case "9":
+            budgetService.ViewBudgets();
+            break;
+
+        case "10":
             return;
 
         default:
