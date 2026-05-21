@@ -40,6 +40,23 @@ namespace PersonalFinanceManager.Services
             _context.Expenses.Add(expense);
             _context.SaveChanges();
 
+            var categoryBudget = _context.Budgets
+                .FirstOrDefault(b => b.Category.ToLower() == category.ToLower());
+
+            if (categoryBudget != null)
+            {
+                decimal totalCategoryExpense = _context.Expenses
+                    .Where(e => e.Category.ToLower() == category.ToLower())
+                    .Sum(e => e.Amount);
+
+                if (totalCategoryExpense > categoryBudget.LimitAmount)
+                {
+                    Console.WriteLine(
+                        $"Warning: Budget exceeded for category '{category}'."
+                    );
+                }
+            }
+
             Console.WriteLine("Expense added successfully.");
         }
 
