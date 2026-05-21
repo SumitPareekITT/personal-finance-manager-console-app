@@ -36,7 +36,8 @@ while (true)
     Console.WriteLine("8. Set Budget");
     Console.WriteLine("9. View Budgets");
     Console.WriteLine("10. Financial Summary");
-    Console.WriteLine("11. Exit");
+    Console.WriteLine("11. Category-wise Spending");
+    Console.WriteLine("12. Exit");
 
     Console.Write("Select an option: ");
 
@@ -85,6 +86,10 @@ while (true)
             break;
 
         case "11":
+            summaryService.ShowCategoryWiseSpending();
+            break;
+
+        case "12":
             return;
 
         default:

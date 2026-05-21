@@ -29,5 +29,30 @@ namespace PersonalFinanceManager.Services
 
             Console.WriteLine($"Balance       : {balance}");
         }
+
+        public void ShowCategoryWiseSpending()
+        {
+            var categorySummary = _context.Expenses
+                .GroupBy(e => e.Category)
+                .Select(g => new
+                {
+                    Category = g.Key,
+                    Total = g.Sum(e => e.Amount)
+                })
+                .ToList();
+
+            if (!categorySummary.Any())
+            {
+                Console.WriteLine("No expense records found.");
+                return;
+            }
+
+            Console.WriteLine("\n=== Category-wise Spending ===");
+
+            foreach (var item in categorySummary)
+            {
+                Console.WriteLine($"{item.Category} : {item.Total}");
+            }
+        }
     }
 }
