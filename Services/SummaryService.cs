@@ -23,11 +23,9 @@ namespace PersonalFinanceManager.Services
 
             Console.WriteLine("\n=== Financial Summary ===");
 
-            Console.WriteLine($"Total Income  : {totalIncome}");
-
-            Console.WriteLine($"Total Expense : {totalExpense}");
-
-            Console.WriteLine($"Balance       : {balance}");
+            Console.WriteLine($"Total Income  : ₹{totalIncome:N2}");
+            Console.WriteLine($"Total Expense : ₹{totalExpense:N2}");
+            Console.WriteLine($"Balance       : ₹{balance:N2}");
         }
 
         public void ShowCategoryWiseSpending()

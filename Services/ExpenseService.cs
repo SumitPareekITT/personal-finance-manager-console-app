@@ -23,8 +23,22 @@ namespace PersonalFinanceManager.Services
                 return;
             }
 
-            Console.Write("Enter Category: ");
-            string category = Console.ReadLine() ?? string.Empty;
+            Console.WriteLine("Select Category:");
+            Console.WriteLine("1. Food");
+            Console.WriteLine("2. Travel");
+            Console.WriteLine("3. Shopping");
+            Console.WriteLine("4. Bills");
+
+            string categoryChoice = Console.ReadLine() ?? "";
+
+            string category = categoryChoice switch
+            {
+                "1" => "Food",
+                "2" => "Travel",
+                "3" => "Shopping",
+                "4" => "Bills",
+                _ => "Other"
+            };
 
             Console.Write("Enter Description: ");
             string description = Console.ReadLine() ?? string.Empty;
@@ -62,7 +76,9 @@ namespace PersonalFinanceManager.Services
 
         public void ViewExpenses()
         {
-            var expenses = _context.Expenses.ToList();
+            var expenses = _context.Expenses
+                                .OrderByDescending(e => e.Date)
+                                .ToList();
 
             if (!expenses.Any())
             {
@@ -73,7 +89,7 @@ namespace PersonalFinanceManager.Services
             foreach (var expense in expenses)
             {
                 Console.WriteLine(
-                    $"ID: {expense.Id} | Amount: {expense.Amount} | Category: {expense.Category} | Date: {expense.Date}"
+                    $"| {expense.Id,-3} | ₹{expense.Amount,-10:N2} | {expense.Category,-10} | {expense.Date:dd-MM-yyyy} |"
                 );
             }
         }
