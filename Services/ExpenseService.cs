@@ -23,8 +23,22 @@ namespace PersonalFinanceManager.Services
                 return;
             }
 
-            Console.Write("Enter Category: ");
-            string category = Console.ReadLine() ?? string.Empty;
+            Console.WriteLine("Select Category:");
+            Console.WriteLine("1. Food");
+            Console.WriteLine("2. Travel");
+            Console.WriteLine("3. Shopping");
+            Console.WriteLine("4. Bills");
+
+            string categoryChoice = Console.ReadLine() ?? "";
+
+            string category = categoryChoice switch
+            {
+                "1" => "Food",
+                "2" => "Travel",
+                "3" => "Shopping",
+                "4" => "Bills",
+                _ => "Other"
+            };
 
             Console.Write("Enter Description: ");
             string description = Console.ReadLine() ?? string.Empty;
