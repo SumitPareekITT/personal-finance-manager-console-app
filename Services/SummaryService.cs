@@ -7,10 +7,12 @@ namespace PersonalFinanceManager.Services
     public class SummaryService
     {
         private readonly AppDbContext _context;
+        private readonly int _loggedInUserId;
 
-        public SummaryService(AppDbContext context)
+        public SummaryService(AppDbContext context, int loggedInUserId)
         {
             _context = context;
+            _loggedInUserId = loggedInUserId;
         }
 
         public void ShowFinancialSummary()

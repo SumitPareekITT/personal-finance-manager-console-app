@@ -8,10 +8,12 @@ namespace PersonalFinanceManager.Services
     public class BudgetService
     {
         private readonly AppDbContext _context;
+        private readonly int _loggedInUserId;
 
-        public BudgetService(AppDbContext context)
+        public BudgetService(AppDbContext context, int loggedInUserId)
         {
             _context = context;
+            _loggedInUserId = loggedInUserId;
         }
 
         public void SetBudget()
