@@ -8,10 +8,12 @@ namespace PersonalFinanceManager.Services
     public class IncomeService
     {
         private readonly AppDbContext _context;
+        private readonly int _loggedInUserId;
 
-        public IncomeService(AppDbContext context)
+        public IncomeService(AppDbContext context, int loggedInUserId)
         {
             _context = context;
+            _loggedInUserId = loggedInUserId;
         }
 
         public void AddIncome()

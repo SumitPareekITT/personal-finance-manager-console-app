@@ -8,10 +8,12 @@ namespace PersonalFinanceManager.Services
     public class ExpenseService
     {
         private readonly AppDbContext _context;
+        private readonly int _loggedInUserId;
 
-        public ExpenseService(AppDbContext context)
+        public ExpenseService(AppDbContext context, int loggedInUserId)
         {
             _context = context;
+            _loggedInUserId = loggedInUserId;
         }
 
         public void AddExpense()
@@ -48,7 +50,8 @@ namespace PersonalFinanceManager.Services
                 Amount = amount,
                 Category = category,
                 Description = description,
-                Date = DateTime.Now
+                Date = DateTime.Now,
+                UserId = _loggedInUserId
             };
 
             _context.Expenses.Add(expense);
@@ -60,7 +63,10 @@ namespace PersonalFinanceManager.Services
             if (categoryBudget != null)
             {
                 decimal totalCategoryExpense = _context.Expenses
-                    .Where(e => e.Category.ToLower() == category.ToLower())
+                    .Where(e =>
+                        e.UserId == _loggedInUserId &&
+                        e.Category.ToLower() == category.ToLower()
+                    )
                     .Sum(e => e.Amount);
 
                 if (totalCategoryExpense > categoryBudget.LimitAmount)
@@ -77,8 +83,9 @@ namespace PersonalFinanceManager.Services
         public void ViewExpenses()
         {
             var expenses = _context.Expenses
-                                .OrderByDescending(e => e.Date)
-                                .ToList();
+                    .Where(e => e.UserId == _loggedInUserId)
+                    .OrderByDescending(e => e.Date)
+                    .ToList();
 
             if (!expenses.Any())
             {
@@ -100,7 +107,10 @@ namespace PersonalFinanceManager.Services
             string category = Console.ReadLine() ?? string.Empty;
 
             var expenses = _context.Expenses
-                .Where(e => e.Category.ToLower() == category.ToLower())
+                .Where(e =>
+                    e.UserId == _loggedInUserId &&
+                    e.Category.ToLower() == category.ToLower()
+                )
                 .ToList();
 
             if (!expenses.Any())
@@ -130,7 +140,10 @@ namespace PersonalFinanceManager.Services
             }
 
             var expenses = _context.Expenses
-                .Where(e => e.Date.Date == selectedDate.Date)
+                .Where(e =>
+                    e.UserId == _loggedInUserId &&
+                    e.Date.Date == selectedDate.Date
+                )
                 .ToList();
 
             if (!expenses.Any())
@@ -157,7 +170,10 @@ namespace PersonalFinanceManager.Services
                 return;
             }
 
-            var expense = _context.Expenses.FirstOrDefault(e => e.Id == expenseId);
+            var expense = _context.Expenses.FirstOrDefault(
+                e => e.Id == expenseId &&
+                    e.UserId == _loggedInUserId
+            );
 
             if (expense == null)
             {
